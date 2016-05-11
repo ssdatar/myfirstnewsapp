@@ -1,0 +1,58 @@
+body {
+	font-family: 'Lato', helvetica, sans-serif;
+	color: #545454;
+}
+
+header {
+	text-align: center;
+	background-color: #ffe;
+}
+
+h1 {
+	color: darkred;
+}
+
+p.desc {
+	text-align: left; 
+	font-size: 1.2em;
+}
+
+#main-content {
+	margin-top: 2em;
+	text-align: center;
+}
+
+#map {
+	height: 500px;
+	width: 100%;
+	margin-bottom: 2em;
+}
+
+#art-map, #pano {
+	height: 400px;
+	width: 100%;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+h5.small {
+	padding-top: 3em;
+	text-align: center;
+}
+
+
+table {
+	margin-top: 2em;
+	text-align: center;
+}
+
+th {
+	text-align: center;
+}
+
+footer#main-footer {
+	text-align: center;
+  margin-top: 2.0em;
+  padding: 1.5em 0;
+  min-height: 200px;
+  background-color: #ffe; 
+}

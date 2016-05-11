@@ -1,0 +1,96 @@
+
+{% include 'partials/head.html' %}
+
+<section id="main-content">
+  <div class="container">
+    <h1 class="page-title">Civic Art in San Francisco</h1>
+
+    <p class="desc">There are <strong>{{data | length }}</strong> civic art pieces in San Francisco. The map below shows where they are located in the city. Click on the dots to see more information about the artist, the piece, and the medium. You can also explore the individual art pieces by clicking on the artist's name in the table below.</p>
+
+    <div id="map"></div>
+
+    <div class="table-responsive">
+      <table class="table table-condensed table-striped table-bordered earthquakes">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Created on</th>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Medium</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for art in data %}
+          <tr>
+            <td><a href="{{ art._id }}/">{{ art.artist }}</a></td>
+            <td>{{ art.created_at }}</td>
+            <td>{{ art.title }}</td>
+            <td> {{art.location_description}}</td>
+            <td>{{art.medium}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</section>
+
+<script type="text/javascript">
+  var map = L.map('map', {
+    scrollWheelZoom: false,
+    center: [37.753972, -122.431297],
+    zoom: 12
+  });
+
+  L.tileLayer("http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", 
+    {
+      attribution: '&copy; Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+      maxZoom: 18
+  }).addTo(map);
+
+  var data = {
+    "type": "FeatureCollection",
+    "features": [
+      {% for obj in data %}
+      {
+        "type": "Feature",
+        "properties": {
+          "artist": "{{ obj.artist }}",
+          "title": "{{ obj.title }}",
+          "id": "{{ obj._id }}",
+          "created_at": "{{obj.created_at}}",
+          "medium": "{{ obj.medium }}"
+        },
+        "geometry": {
+                    "type": "Point",
+                    "coordinates": [{{ obj.x }}, {{ obj.y }}]
+                  }
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  };
+
+  var geojsonMarkerOptions = {
+                      radius: 10,
+                      fillColor: "#ff7800",
+                      color: "#fff",
+                      weight: 1,
+                      opacity: .7,
+                      fillOpacity: 0.7
+                  };
+
+  var dataLayer = L.geoJson(data, {
+                pointToLayer: function (feature, latlng) {
+                  return L.circleMarker(latlng, geojsonMarkerOptions);
+                },
+
+                onEachFeature: function(feature, layer) {
+                  //Info shown on map popup
+                  layer.bindPopup('<strong>' + feature.properties.artist + '</strong>' + '<br> Title: ' + feature.properties.title + '<br> Created at: ' + feature.properties.created_at + '<br>Medium: ' + feature.properties.medium);
+                  }
+              });
+  map.addLayer(dataLayer);
+
+</script>
+
+{% include 'partials/foot.html' %}
