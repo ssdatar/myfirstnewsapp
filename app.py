@@ -2,7 +2,7 @@ import csv
 from flask import Flask, abort, render_template
 from csv import DictReader
 
-app = Flask(__name__, static_url_path='static')
+app = Flask(__name__)
 
 def get_csv():
 	csv_path = './static/art.csv'
