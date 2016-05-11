@@ -23,7 +23,7 @@
         <tbody>
           {% for art in data %}
           <tr>
-            <td><a href="{{ art._id }}/">{{ art.artist }}</a></td>
+            <td><a href="{{ art._id }}/" target="_blank">{{ art.artist }}</a></td>
             <td>{{ art.created_at }}</td>
             <td>{{ art.title }}</td>
             <td> {{art.location_description}}</td>
@@ -86,7 +86,7 @@
 
                 onEachFeature: function(feature, layer) {
                   //Info shown on map popup
-                  layer.bindPopup('<strong>' + feature.properties.artist + '</strong>' + '<br> Title: ' + feature.properties.title + '<br> Created at: ' + feature.properties.created_at + '<br>Medium: ' + feature.properties.medium);
+                  layer.bindPopup('<strong>' + feature.properties.artist + '</strong>' + '<br> Title: ' + feature.properties.title + '<br> Created: ' + feature.properties.created_at + '<br>Medium: ' + feature.properties.medium + '<br>' + '<a href="' + feature.properties.id + '" target="_blank">Click to see piece</a>');
                   }
               });
   map.addLayer(dataLayer);
